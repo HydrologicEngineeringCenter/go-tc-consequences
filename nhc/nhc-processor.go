@@ -1,5 +1,10 @@
 package nhc
 
+import "github.com/USACE/go-conseqeunces/hazards"
+
+func convertDepthtoDepthEvent(d float64) hazards.DepthEvent {
+	return hazards.DepthEvent{Depth: d}
+}
 func convertByteToDepth(b byte) float64 {
 	switch b {
 	case 1:
