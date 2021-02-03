@@ -30,7 +30,7 @@ func compute(filepath string) {
 		//convert nsifeature to structure
 		str := comp.NsiFeaturetoStructure(f, m, defaultOcctype)
 		//query input tiff for xy location
-		d := tiffReader.GetHazardEvent(str.X, str.Y)
+		d, _ := tiffReader.ProvideHazard(nhc.LocationArgument{X: str.X, Y: str.Y})
 		//compute damages based on provided depths
 		de, ok := d.(hazards.DepthEvent)
 		if ok {

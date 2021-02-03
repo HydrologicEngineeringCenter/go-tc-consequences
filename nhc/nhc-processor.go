@@ -8,6 +8,10 @@ import (
 type nhcInundationData struct {
 	FilePath string
 }
+type LocationArgument struct {
+	X float64
+	Y float64
+}
 
 //Init creates and produces an unexported nhcInundationData struct.
 func Init(fp string) nhcInundationData {
@@ -16,10 +20,14 @@ func Init(fp string) nhcInundationData {
 	return nhcInundationData{FilePath: fp}
 }
 
-//GetHazardEvent should get converted to go-consequences hazardprovider.ProvideHazard(args interface{})hazards.HazardEvent,err
-func (nid nhcInundationData) GetHazardEvent(x float64, y float64) hazards.HazardEvent {
+//ProvideHazard provides a hazardevent for a LocationArgument
+func (nid nhcInundationData) ProvideHazard(args interface{}) (hazards.HazardEvent, error) {
 	//needs work.
-	/*ds, err := gdal.Open(nid.FilePath, gdal.ReadOnly)
+	//la, ok := args.(LocationArgument)
+	//if ok{
+	/*x := la.X
+	y := la.Y
+	ds, err := gdal.Open(nid.FilePath, gdal.ReadOnly)
 	if err != nil {
 		return 0.0, err
 	}
@@ -30,7 +38,10 @@ func (nid nhcInundationData) GetHazardEvent(x float64, y float64) hazards.Hazard
 	buffer := make([]float32, 1*1)
 	rb.IO(gdal.Read, px, py, 1, 1, buffer, 1, 1, 0, 0)
 	*/
-	return convertDepthtoHazardEvent(convertByteToDepth(3)) //buffer[0]))
+	return convertDepthtoHazardEvent(convertByteToDepth(3)), nil //buffer[0]))
+	//}
+	//err := hazardproviders.HazardError{Input: "Could not Parse args"}
+	//return nil, err
 }
 func (nid nhcInundationData) GetBoundingBox() string {
 	//needs to be in format NSI expects
