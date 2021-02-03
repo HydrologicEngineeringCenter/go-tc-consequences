@@ -30,14 +30,14 @@ func (nid nhcInundationData) GetHazardEvent(x float64, y float64) hazards.Hazard
 	buffer := make([]float32, 1*1)
 	rb.IO(gdal.Read, px, py, 1, 1, buffer, 1, 1, 0, 0)
 	*/
-	return convertDepthtoDepthEvent(convertByteToDepth(1)) //buffer[0]))
+	return convertDepthtoHazardEvent(convertByteToDepth(1)) //buffer[0]))
 }
 func (nid nhcInundationData) GetBoundingBox() string {
 	//needs to be in format NSI expects
 	return "gobbldygook"
 }
-func convertDepthtoDepthEvent(d float64) hazards.DepthEvent {
-	return hazards.DepthEvent{Depth: d}
+func convertDepthtoHazardEvent(d float64) hazards.HazardEvent {
+	return hazards.DepthEvent{Depth: d} //could be a hazard.CoastalEvent{Depth:d, Salinity:true}
 }
 func convertByteToDepth(b byte) float64 {
 	switch b {
