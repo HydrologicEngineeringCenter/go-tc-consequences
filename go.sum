@@ -1,4 +1,5 @@
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
+github.com/HenryGeorgist/go-statistics v0.0.0-20210125164034-3542879c2b55 h1:2C5cDOo+Fpaa8ZQ/iicerKp9iAzDaSGW1BqQDpZfB9o=
 github.com/HenryGeorgist/go-statistics v0.0.0-20210125164034-3542879c2b55/go.mod h1:nRh6hALDQyZeIOkky6G6Uq+t4nUBWH4BnIBpKEkmxnI=
 github.com/USACE/go-consequences v0.0.0-20210202031920-a9c964f1b9e1 h1:scWekusJ8j4Qybjg+9IafqbyxbFY2mskgb70fZdS274=
 github.com/USACE/go-consequences v0.0.0-20210202031920-a9c964f1b9e1/go.mod h1:1Pu/WyRXB/GS4nCQVdKtkeQ76nZH9aYVXiDWYDgGfDY=
