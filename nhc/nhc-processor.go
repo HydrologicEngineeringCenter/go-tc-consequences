@@ -1,6 +1,8 @@
 package nhc
 
-import "github.com/USACE/go-conseqeunces/hazards"
+import (
+	"github.com/USACE/go-consequences/hazards"
+)
 
 func convertDepthtoDepthEvent(d float64) hazards.DepthEvent {
 	return hazards.DepthEvent{Depth: d}
