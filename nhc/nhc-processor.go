@@ -56,14 +56,14 @@ func (nid *nhcInundationData) ProvideHazard(l Location) (hazards.HazardEvent, er
 	igt := nid.ds.InvGeoTransform()
 	px := int(igt[0] + l.X*igt[1] + l.Y*igt[2])
 	py := int(igt[3] + l.X*igt[4] + l.Y*igt[5])
-	buffer := make([]float32, 1*1)
+	buffer := make([]int32, 1*1)
 	rb.IO(gdal.Read, px, py, 1, 1, buffer, 1, 1, 0, 0)
-	depthTruncated := uint8(buffer[0])
-	if test%1000 == 0 {
-		fmt.Printf("depth:%f depthByte:%d for record %d\n", buffer[0], depthTruncated, test)
+	depth := uint8(buffer[0])
+	if test%1 == 0 {
+		fmt.Printf("depth-zone:%d depthByte:%d for record %d\n", buffer[0], depth, test)
 	}
 	test++
-	return hazards.DepthEvent{convertByteToDepth(depthTruncated)}, nil
+	return hazards.DepthEvent{convertByteToDepth(depth)}, nil
 }
 func (nid *nhcInundationData) GetBoundingBox() (BBox, error) {
 	bbox := make([]float64, 4)
