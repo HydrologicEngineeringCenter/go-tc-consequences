@@ -10,7 +10,8 @@ import (
 )
 
 func Test_Compute_NSI(t *testing.T) {
-	compute("test")
+	t.Log("Starting Test")
+	compute("/vsis3/usace-storms/cwbi-dls-mmc/tiles/FLOOD_DEPTH/2307_COG.tif")
 }
 func Test_Compute_FakeStructure(t *testing.T) {
 	//get a map of all occupancy types

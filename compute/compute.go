@@ -15,11 +15,14 @@ import (
 func compute(filepath string) {
 	//open a tif reader
 	tiffReader := nhc.Init(filepath)
+	defer tiffReader.Close()
 	//get boundingbox
+	fmt.Println("Getting bbox")
 	bbox, err := tiffReader.GetBoundingBox()
 	if err != nil {
-		log.Panic("Unable to get the raster buounding box.")
+		log.Panicf("Unable to get the raster bounding box: %s", err)
 	}
+	fmt.Println(bbox.ToString())
 	//get a map of all occupancy types
 	m := structures.OccupancyTypeMap()
 	//define a default occtype in case of emergancy

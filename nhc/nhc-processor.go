@@ -2,14 +2,18 @@ package nhc
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/USACE/go-consequences/hazards"
 	"github.com/dewberry/gdal"
 	//"github.com/dewberry/gdal"
 )
 
+var test int = 0
+
 type nhcInundationData struct {
 	FilePath string
+	ds       *gdal.Dataset
 }
 
 type Location struct {
@@ -35,40 +39,42 @@ func (bb BBox) ToString() string {
 func Init(fp string) nhcInundationData {
 	//read the file path
 	//make sure it is a tif
-	return nhcInundationData{FilePath: fp}
+	ds, err := gdal.Open(fp, gdal.ReadOnly)
+	if err != nil {
+		log.Fatalln("Cannot connect to raster.  Killing everything!")
+	}
+	return nhcInundationData{fp, &ds}
+}
+
+func (nid *nhcInundationData) Close() {
+	nid.ds.Close()
 }
 
 //ProvideHazard provides a hazardevent for a LocationArgument
-func (nid nhcInundationData) ProvideHazard(l Location) (hazards.HazardEvent, error) {
-	ds, err := gdal.Open(nid.FilePath, gdal.ReadOnly)
-	if err != nil {
-		return hazards.DepthEvent{}, err
-	}
-	defer ds.Close()
-	rb := ds.RasterBand(1)
-	igt := ds.InvGeoTransform()
-	px := int(igt[0] + l.Y*igt[1] + l.X*igt[2])
-	py := int(igt[3] + l.Y*igt[4] + l.X*igt[5])
+func (nid *nhcInundationData) ProvideHazard(l Location) (hazards.HazardEvent, error) {
+	rb := nid.ds.RasterBand(1)
+	igt := nid.ds.InvGeoTransform()
+	px := int(igt[0] + l.X*igt[1] + l.Y*igt[2])
+	py := int(igt[3] + l.X*igt[4] + l.Y*igt[5])
 	buffer := make([]float32, 1*1)
-	rb.IO(ds.Read, px, py, 1, 1, buffer, 1, 1, 0, 0)
-	//return convertDepthtoHazardEvent(convertByteToDepth(3)), nil //buffer[0]))
-	return hazards.DepthEvent{convertByteToDepth(3)}, nil
-}
-func (nid nhcInundationData) GetBoundingBox() (BBox, error) {
-	bbox := make([]float64, 4)
-	ds, err := gdal.Open(nid.FilePath, gdal.ReadOnly)
-	if err != nil {
-		return BBox{bbox}, err
+	rb.IO(gdal.Read, px, py, 1, 1, buffer, 1, 1, 0, 0)
+	depthTruncated := uint8(buffer[0])
+	if test%1000 == 0 {
+		fmt.Printf("depth:%f depthByte:%d for record %d\n", buffer[0], depthTruncated, test)
 	}
-	defer ds.Close()
-
-	gt := ds.GeoTransform()
-	dx := ds.RasterXSize()
-	dy := ds.RasterYSize()
+	test++
+	return hazards.DepthEvent{convertByteToDepth(depthTruncated)}, nil
+}
+func (nid *nhcInundationData) GetBoundingBox() (BBox, error) {
+	bbox := make([]float64, 4)
+	gt := nid.ds.GeoTransform()
+	fmt.Println(gt)
+	dx := nid.ds.RasterXSize()
+	dy := nid.ds.RasterYSize()
 	bbox[0] = gt[0]                     //upper left x
-	bbox[1] = gt[2]                     //upper left y
+	bbox[1] = gt[3]                     //upper left y
 	bbox[2] = gt[0] + gt[1]*float64(dx) //lower right x
-	bbox[3] = gt[2] + gt[3]*float64(dy) //lower right y
+	bbox[3] = gt[3] + gt[5]*float64(dy) //lower right y
 	return BBox{bbox}, nil
 }
 
