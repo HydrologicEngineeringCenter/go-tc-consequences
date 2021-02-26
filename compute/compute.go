@@ -2,6 +2,7 @@ package compute
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/HydrologicEngineeringCenter/go-tc-consequences/nhc"
 	comp "github.com/USACE/go-consequences/compute"
@@ -14,8 +15,14 @@ import (
 func compute(filepath string) {
 	//open a tif reader
 	tiffReader := nhc.Init(filepath)
+	defer tiffReader.Close()
 	//get boundingbox
-	bbox := tiffReader.GetBoundingBox()
+	fmt.Println("Getting bbox")
+	bbox, err := tiffReader.GetBoundingBox()
+	if err != nil {
+		log.Panicf("Unable to get the raster bounding box: %s", err)
+	}
+	fmt.Println(bbox.ToString())
 	//get a map of all occupancy types
 	m := structures.OccupancyTypeMap()
 	//define a default occtype in case of emergancy
@@ -26,11 +33,11 @@ func compute(filepath string) {
 	result := consequences.Results{IsTable: true}
 	result.Result.Headers = header
 	result.Result.Result = rows
-	nsi.GetByBboxStream(bbox, func(f nsi.NsiFeature) {
+	nsi.GetByBboxStream(bbox.ToString(), func(f nsi.NsiFeature) {
 		//convert nsifeature to structure
 		str := comp.NsiFeaturetoStructure(f, m, defaultOcctype)
 		//query input tiff for xy location
-		d, _ := tiffReader.ProvideHazard(nhc.LocationArgument{X: str.X, Y: str.Y})
+		d, _ := tiffReader.ProvideHazard(nhc.Location{X: str.X, Y: str.Y})
 		//compute damages based on provided depths
 		de, ok := d.(hazards.DepthEvent)
 		if ok {

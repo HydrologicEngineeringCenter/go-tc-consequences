@@ -10,7 +10,9 @@ import (
 )
 
 func Test_Compute_NSI(t *testing.T) {
-	compute("test")
+	t.Log("Starting Test")
+	//compute("/vsis3/usace-storms/cwbi-dls-mmc/tiles/FLOOD_DEPTH/2307_COG.tif")
+	compute("/workspaces/go-tc-consequences/data/clipped_sample.tif")
 }
 func Test_Compute_FakeStructure(t *testing.T) {
 	//get a map of all occupancy types
@@ -33,7 +35,7 @@ func Test_Compute_FakeStructure(t *testing.T) {
 	//get unexported tiff reader.
 	tiffReader := nhc.Init("ultimatelythisneedstobeatif")
 	//query input tiff for xy location (fake x,y for testing)
-	d, _ := tiffReader.ProvideHazard(nhc.LocationArgument{X: s.BaseStructure.X, Y: s.BaseStructure.Y})
+	d, _ := tiffReader.ProvideHazard(nhc.Location{X: s.BaseStructure.X, Y: s.BaseStructure.Y})
 	//cast to float - because it is an empty interface?
 	got := s.Compute(d).Result.Result[0].(float64) //zero is structure damage not content damage.
 	if got-40.099998 > .0000005 {
