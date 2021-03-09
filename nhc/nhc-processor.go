@@ -6,7 +6,6 @@ import (
 
 	"github.com/USACE/go-consequences/hazards"
 	"github.com/dewberry/gdal"
-	//"github.com/dewberry/gdal"
 )
 
 var test int = 0
@@ -63,7 +62,7 @@ func (nid *nhcInundationData) ProvideHazard(l Location) (hazards.HazardEvent, er
 		fmt.Printf("depth-zone:%d depthByte:%d for record %d\n", buffer[0], depth, test)
 	}
 	test++
-	return hazards.DepthEvent{convertByteToDepth(depth)}, nil
+	return convertDepthtoHazardEvent(convertByteToDepth(depth)), nil
 }
 func (nid *nhcInundationData) GetBoundingBox() (BBox, error) {
 	bbox := make([]float64, 4)
@@ -79,7 +78,9 @@ func (nid *nhcInundationData) GetBoundingBox() (BBox, error) {
 }
 
 func convertDepthtoHazardEvent(d float64) hazards.HazardEvent {
-	return hazards.DepthEvent{Depth: d} //could be a hazard.CoastalEvent{Depth:d, Salinity:true}
+	h := hazards.DepthEvent{}
+	h.SetDepth(d)
+	return h //could be a hazard.CoastalEvent{Depth:d, Salinity:true}
 }
 func convertByteToDepth(b byte) float64 {
 	switch b {

@@ -39,10 +39,9 @@ func compute(filepath string) {
 		//query input tiff for xy location
 		d, _ := tiffReader.ProvideHazard(nhc.Location{X: str.X, Y: str.Y})
 		//compute damages based on provided depths
-		de, ok := d.(hazards.DepthEvent)
-		if ok {
-			if de.Depth > 0.0 {
-				r := str.Compute(de)
+		if d.Has(hazards.Depth) {
+			if d.Depth() > 0.0 {
+				r := str.Compute(d)
 				//keep a summmary of damages that adds the structure name
 				row := []interface{}{str.Name, str.X, str.Y, r.Result.Result[0], r.Result.Result[1]}
 				structureResult := consequences.Result{Headers: header, Result: row}
