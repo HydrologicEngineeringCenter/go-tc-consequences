@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/USACE/go-consequences/geography"
 	"github.com/USACE/go-consequences/hazards"
 	"github.com/dewberry/gdal"
 )
@@ -13,25 +14,6 @@ var test int = 0
 type nhcInundationData struct {
 	FilePath string
 	ds       *gdal.Dataset
-}
-
-type Location struct {
-	X    float64
-	Y    float64
-	SRID string
-}
-
-type BBox struct {
-	bbox []float64
-}
-
-func (bb BBox) ToString() string {
-	return fmt.Sprintf("%f,%f,%f,%f,%f,%f,%f,%f,%f,%f",
-		bb.bbox[0], bb.bbox[1],
-		bb.bbox[2], bb.bbox[1],
-		bb.bbox[2], bb.bbox[3],
-		bb.bbox[0], bb.bbox[3],
-		bb.bbox[0], bb.bbox[1])
 }
 
 //Init creates and produces an unexported nhcInundationData struct.
@@ -45,12 +27,12 @@ func Init(fp string) nhcInundationData {
 	return nhcInundationData{fp, &ds}
 }
 
-func (nid *nhcInundationData) Close() {
+func (nid nhcInundationData) Close() {
 	nid.ds.Close()
 }
 
 //ProvideHazard provides a hazardevent for a LocationArgument
-func (nid *nhcInundationData) ProvideHazard(l Location) (hazards.HazardEvent, error) {
+func (nid nhcInundationData) ProvideHazard(l geography.Location) (hazards.HazardEvent, error) {
 	rb := nid.ds.RasterBand(1)
 	igt := nid.ds.InvGeoTransform()
 	px := int(igt[0] + l.X*igt[1] + l.Y*igt[2])
@@ -64,7 +46,7 @@ func (nid *nhcInundationData) ProvideHazard(l Location) (hazards.HazardEvent, er
 	test++
 	return convertDepthtoHazardEvent(convertByteToDepth(depth)), nil
 }
-func (nid *nhcInundationData) GetBoundingBox() (BBox, error) {
+func (nid nhcInundationData) ProvideHazardBoundary() (geography.BBox, error) {
 	bbox := make([]float64, 4)
 	gt := nid.ds.GeoTransform()
 	fmt.Println(gt)
@@ -74,7 +56,7 @@ func (nid *nhcInundationData) GetBoundingBox() (BBox, error) {
 	bbox[1] = gt[3]                     //upper left y
 	bbox[2] = gt[0] + gt[1]*float64(dx) //lower right x
 	bbox[3] = gt[3] + gt[5]*float64(dy) //lower right y
-	return BBox{bbox}, nil
+	return geography.BBox{Bbox: bbox}, nil
 }
 
 func convertDepthtoHazardEvent(d float64) hazards.HazardEvent {

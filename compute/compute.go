@@ -7,18 +7,22 @@ import (
 	"github.com/HydrologicEngineeringCenter/go-tc-consequences/nhc"
 	comp "github.com/USACE/go-consequences/compute"
 	"github.com/USACE/go-consequences/consequences"
+	"github.com/USACE/go-consequences/geography"
+	"github.com/USACE/go-consequences/hazardproviders"
 	"github.com/USACE/go-consequences/hazards"
 	"github.com/USACE/go-consequences/nsi"
 	"github.com/USACE/go-consequences/structures"
 )
 
-func compute(filepath string) {
-	//open a tif reader
+func computeFromFilePath(filepath string) {
 	tiffReader := nhc.Init(filepath)
 	defer tiffReader.Close()
-	//get boundingbox
+	compute(tiffReader)
+}
+func compute(hp hazardproviders.HazardProvider) {
+
 	fmt.Println("Getting bbox")
-	bbox, err := tiffReader.GetBoundingBox()
+	bbox, err := hp.ProvideHazardBoundary()
 	if err != nil {
 		log.Panicf("Unable to get the raster bounding box: %s", err)
 	}
@@ -37,7 +41,7 @@ func compute(filepath string) {
 		//convert nsifeature to structure
 		str := comp.NsiFeaturetoStructure(f, m, defaultOcctype)
 		//query input tiff for xy location
-		d, _ := tiffReader.ProvideHazard(nhc.Location{X: str.X, Y: str.Y})
+		d, _ := hp.ProvideHazard(geography.Location{X: str.X, Y: str.Y})
 		//compute damages based on provided depths
 		if d.Has(hazards.Depth) {
 			if d.Depth() > 0.0 {
