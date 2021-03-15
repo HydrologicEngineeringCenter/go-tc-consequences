@@ -1,13 +1,22 @@
 package main
 
 import (
-	"log"
-	"net/http"
+	"os"
 
 	"github.com/HydrologicEngineeringCenter/go-tc-consequences/compute"
 )
 
 func main() {
+	//serverless solution
+	filepath := "/workspaces/go-tc-consequences/data/clipped_sample.tif"
+	w, err := os.OpenFile("/workspaces/go-tc-consequences/data/clipped_sample_consequences.json", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
+	if err != nil {
+		panic(err)
+	}
+	defer w.Close()
+
+	compute.ComputeFromFilePathWithWriter(filepath, w)
+	/*//server solution
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		params := r.URL.Query()
 		fp, fpPresent := params["FilePath"]
@@ -25,5 +34,6 @@ func main() {
 	})
 	log.Print("starting local server")
 	log.Fatal(http.ListenAndServe("localhost:3030", nil))
+	*/
 
 }
