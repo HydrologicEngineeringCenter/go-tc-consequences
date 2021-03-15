@@ -19,7 +19,7 @@ func main() {
 				http.Error(w, "Invalid FilePath argument", http.StatusNotFound)
 			} else {
 				//fmt.Fprintf(w, fp[0])
-				compute.ComputeFromFilePath(fp[0])
+				compute.ComputeFromFilePathWithWriter(fp[0], w)
 			}
 		}
 	})
