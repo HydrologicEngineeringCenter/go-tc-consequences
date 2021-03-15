@@ -8,8 +8,9 @@ import (
 
 func main() {
 	//serverless solution
-	filepath := "/workspaces/go-tc-consequences/data/clipped_sample.tif"
-	w, err := os.OpenFile("/workspaces/go-tc-consequences/data/clipped_sample_consequences.json", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
+	root := "/workspaces/go-tc-consequences/data/clipped_sample"
+	filepath := root + ".tif"
+	w, err := os.OpenFile(root+"_consequences.json", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
 	if err != nil {
 		panic(err)
 	}
