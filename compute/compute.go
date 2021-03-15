@@ -14,7 +14,7 @@ import (
 	"github.com/USACE/go-consequences/structures"
 )
 
-func computeFromFilePath(filepath string) {
+func ComputeFromFilePath(filepath string) {
 	tiffReader := nhc.Init(filepath)
 	defer tiffReader.Close()
 	compute(tiffReader)

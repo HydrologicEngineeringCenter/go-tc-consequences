@@ -14,7 +14,7 @@ import (
 func Test_Compute_NSI(t *testing.T) {
 	t.Log("Starting Test")
 	//compute("/vsis3/usace-storms/cwbi-dls-mmc/tiles/FLOOD_DEPTH/2307_COG.tif")
-	computeFromFilePath("/workspaces/go-tc-consequences/data/clipped_sample.tif")
+	ComputeFromFilePath("/workspaces/go-tc-consequences/data/clipped_sample.tif")
 }
 func Test_Compute_FakeHP(t *testing.T) {
 	mhp := mockhp{}
