@@ -44,7 +44,7 @@ func Test_Compute_FakeStructure(t *testing.T) {
 	//query input tiff for xy location (fake x,y for testing)
 	d, _ := tiffReader.ProvideHazard(geography.Location{X: s.BaseStructure.X, Y: s.BaseStructure.Y})
 	//cast to float - because it is an empty interface?
-	got := s.Compute(d).Result.Result[0].(float64) //zero is structure damage not content damage.
+	got := s.Compute(d).Result[0].(float64) //zero is structure damage not content damage.
 	if got-40.099998 > .0000005 {
 		t.Errorf("Compute() = %f", got)
 	}
