@@ -76,7 +76,7 @@ func computeWithWriter(hp hazardproviders.HazardProvider, w io.Writer) {
 	defaultOcctype := m["RES1-1SNB"]
 	//create a header for marshalling
 	header := []string{"fd_id", "x", "y", "depth", "damage_category", "occupancy_type", "structure damage", "content damage", "Pop_2amo65", "Pop_2amu65", "Pop_2pmo65", "Pop_2pmu65"}
-
+	fmt.Fprintf(w, "{\"consequences\":[")
 	structureprovider.GetByBboxStream(bbox.ToString(), func(f structureprovider.NsiFeature) {
 		//convert nsifeature to structure
 		str := structureprovider.NsiFeaturetoStructure(f, m, defaultOcctype)
@@ -90,9 +90,10 @@ func computeWithWriter(hp hazardproviders.HazardProvider, w io.Writer) {
 				row := []interface{}{r.Result[0], r.Result[1], r.Result[2], d.Depth(), r.Result[4], r.Result[5], r.Result[6], r.Result[7], f.Properties.Pop2amo65, f.Properties.Pop2amu65, f.Properties.Pop2pmo65, f.Properties.Pop2pmu65}
 				structureResult := consequences.Result{Headers: header, Result: row}
 				b, _ := structureResult.MarshalJSON()
-				s := string(b) + "\n"
+				s := string(b) + ","
 				fmt.Fprintf(w, s)
 			}
 		}
 	})
+	fmt.Fprintf(w, "]}")
 }
