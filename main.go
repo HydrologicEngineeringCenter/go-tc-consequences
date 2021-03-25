@@ -3,7 +3,10 @@ package main
 import (
 	"os"
 
-	"github.com/HydrologicEngineeringCenter/go-tc-consequences/compute"
+	"github.com/HydrologicEngineeringCenter/go-tc-consequences/nhc"
+	"github.com/USACE/go-consequences/compute"
+	"github.com/USACE/go-consequences/consequences"
+	"github.com/USACE/go-consequences/structureprovider"
 )
 
 func main() {
@@ -15,8 +18,11 @@ func main() {
 		panic(err)
 	}
 	defer w.Close()
+	jwriter := consequences.InitJsonResultsWriterFromFile(root + "_consequences.json")
+	nsp := structureprovider.InitNSISP()
+	nhcTiffReader := nhc.Init(filepath)
 
-	compute.ComputeFromFilePathWithWriter(filepath, w)
+	compute.StreamAbstract(nhcTiffReader, nsp, jwriter)
 	/*//server solution
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		params := r.URL.Query()
