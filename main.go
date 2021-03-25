@@ -1,8 +1,6 @@
 package main
 
 import (
-	"os"
-
 	"github.com/HydrologicEngineeringCenter/go-tc-consequences/nhc"
 	"github.com/USACE/go-consequences/compute"
 	"github.com/USACE/go-consequences/consequences"
@@ -13,13 +11,9 @@ func main() {
 	//serverless solution
 	root := "/workspaces/go-tc-consequences/data/clipped_sample"
 	filepath := root + ".tif"
-	w, err := os.OpenFile(root+"_consequences.json", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
-	if err != nil {
-		panic(err)
-	}
-	defer w.Close()
 	jwriter := consequences.InitJsonResultsWriterFromFile(root + "_consequences.json")
 	nsp := structureprovider.InitNSISP()
+	defer jwriter.Close()
 	nhcTiffReader := nhc.Init(filepath)
 
 	compute.StreamAbstract(nhcTiffReader, nsp, jwriter)
