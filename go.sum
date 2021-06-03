@@ -1,6 +1,8 @@
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/HenryGeorgist/go-statistics v0.0.0-20210125164034-3542879c2b55 h1:2C5cDOo+Fpaa8ZQ/iicerKp9iAzDaSGW1BqQDpZfB9o=
 github.com/HenryGeorgist/go-statistics v0.0.0-20210125164034-3542879c2b55/go.mod h1:nRh6hALDQyZeIOkky6G6Uq+t4nUBWH4BnIBpKEkmxnI=
+github.com/HenryGeorgist/go-statistics v0.0.0-20210320023908-0c2f15b2445f h1:bUOLwbDCOWp3Ve4RpYZ383QOePjvfNKa3bIDww6bKqE=
+github.com/HenryGeorgist/go-statistics v0.0.0-20210320023908-0c2f15b2445f/go.mod h1:nRh6hALDQyZeIOkky6G6Uq+t4nUBWH4BnIBpKEkmxnI=
 github.com/USACE/go-consequences v0.0.0-20210203153744-bb44ba106323 h1:6MQsA3r4DSCJy1XbzPOb8hHW5oyzGDsCMVML97RAy0Q=
 github.com/USACE/go-consequences v0.0.0-20210203153744-bb44ba106323/go.mod h1:1Pu/WyRXB/GS4nCQVdKtkeQ76nZH9aYVXiDWYDgGfDY=
 github.com/USACE/go-consequences v0.0.0-20210203163757-76132320d67a h1:eg0syZq0SthThFPuspJgg6JYPa+Xw67zbXF+qX8G6go=
@@ -13,6 +15,16 @@ github.com/USACE/go-consequences v0.0.0-20210315024203-087d33f6c7c8 h1:KHglyxOF+
 github.com/USACE/go-consequences v0.0.0-20210315024203-087d33f6c7c8/go.mod h1:KdOXA/FWskOV3EIFJKwYZCM/NjcK/UHaxVwYMI/VjPw=
 github.com/USACE/go-consequences v0.0.0-20210316031825-aa3b5d8dea4a h1:TTWn5yv4W9UzzWmT5e5CtYxcDVkBGJBx/xaooN/cLPk=
 github.com/USACE/go-consequences v0.0.0-20210316031825-aa3b5d8dea4a/go.mod h1:KdOXA/FWskOV3EIFJKwYZCM/NjcK/UHaxVwYMI/VjPw=
+github.com/USACE/go-consequences v0.0.0-20210325030059-2f747b3542cb h1:xxmqQsaJKiPToHpOWIcfBPN2g2u7HIms2aMXHAYk71s=
+github.com/USACE/go-consequences v0.0.0-20210325030059-2f747b3542cb/go.mod h1:KdOXA/FWskOV3EIFJKwYZCM/NjcK/UHaxVwYMI/VjPw=
+github.com/USACE/go-consequences v0.0.0-20210325163950-bb15ff4c60a1 h1:39Xj9RvMLM4TSOJXkJM6snYuRw6vREzh4ouE1HBPJJY=
+github.com/USACE/go-consequences v0.0.0-20210325163950-bb15ff4c60a1/go.mod h1:KdOXA/FWskOV3EIFJKwYZCM/NjcK/UHaxVwYMI/VjPw=
+github.com/USACE/go-consequences v0.0.0-20210325165213-62a20fa2b9ef h1:LTP/s4YhtoMYzB4a1XC2FMLn9TfnXb8YBTJQipdQBF4=
+github.com/USACE/go-consequences v0.0.0-20210325165213-62a20fa2b9ef/go.mod h1:KdOXA/FWskOV3EIFJKwYZCM/NjcK/UHaxVwYMI/VjPw=
+github.com/USACE/go-consequences v0.0.0-20210325180737-2bbc2a43270d h1:25wHt+o9wQKTLP178pKEm+IuFgDkj69mnBYnxzeHhEY=
+github.com/USACE/go-consequences v0.0.0-20210325180737-2bbc2a43270d/go.mod h1:KdOXA/FWskOV3EIFJKwYZCM/NjcK/UHaxVwYMI/VjPw=
+github.com/USACE/go-consequences v0.0.0-20210329211029-46898fc27d55 h1:IYbnpy+lX1SKZathRgqr4fAaRm+Rf3qiMejlWTSXLKo=
+github.com/USACE/go-consequences v0.0.0-20210329211029-46898fc27d55/go.mod h1:A+yH5WlFTuHskyyNMdlVABn6/Fr5R1NSpYlvjkcIoHk=
 github.com/aws/aws-lambda-go v1.22.0 h1:X7BKqIdfoJcbsEIi+Lrt5YjX1HnZexIbNWOQgkYKgfE=
 github.com/aws/aws-lambda-go v1.22.0/go.mod h1:jJmlefzPfGnckuHdXX7/80O3BvUUi12XOkbv4w9SGLU=
 github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsrgA7czyZG/E6dU=

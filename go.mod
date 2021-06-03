@@ -3,7 +3,8 @@ module github.com/HydrologicEngineeringCenter/go-tc-consequences
 go 1.15
 
 require (
-	github.com/HenryGeorgist/go-statistics v0.0.0-20210125164034-3542879c2b55
-	github.com/USACE/go-consequences v0.0.0-20210316031825-aa3b5d8dea4a
+	github.com/HenryGeorgist/go-statistics v0.0.0-20210320023908-0c2f15b2445f
+	github.com/USACE/go-consequences v0.0.0-20210329211029-46898fc27d55
+	github.com/aws/aws-lambda-go v1.22.0 // indirect
 	github.com/dewberry/gdal v0.3.1
 )
