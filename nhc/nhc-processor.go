@@ -9,8 +9,6 @@ import (
 	"github.com/dewberry/gdal"
 )
 
-var test int = 0
-
 type nhcInundationData struct {
 	FilePath string
 	ds       *gdal.Dataset
@@ -40,10 +38,6 @@ func (nid nhcInundationData) ProvideHazard(l geography.Location) (hazards.Hazard
 	buffer := make([]int32, 1*1)
 	rb.IO(gdal.Read, px, py, 1, 1, buffer, 1, 1, 0, 0)
 	depth := uint8(buffer[0])
-	if test%1 == 0 {
-		fmt.Printf("depth-zone:%d depthByte:%d for record %d\n", buffer[0], depth, test)
-	}
-	test++
 	return convertDepthtoHazardEvent(convertByteToDepth(depth)), nil
 }
 func (nid nhcInundationData) ProvideHazardBoundary() (geography.BBox, error) {
