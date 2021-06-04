@@ -1,33 +1,81 @@
 package main
 
 import (
+	"flag"
+	"fmt"
+
 	"github.com/HydrologicEngineeringCenter/go-tc-consequences/nhc"
+	"github.com/HydrologicEngineeringCenter/go-tc-consequences/outputwriter"
 	"github.com/USACE/go-consequences/compute"
 	"github.com/USACE/go-consequences/consequences"
+	"github.com/USACE/go-consequences/hazardproviders"
 	"github.com/USACE/go-consequences/structureprovider"
 )
 
 func main() {
-	//serverless solution
-	argsWithoutProg := os.Args[1:]
+	//command line program
+	var sp consequences.StreamProvider
+	var hp hazardproviders.HazardProvider //not sure what it will be yet, but we can declare it!
+	var ow consequences.ResultsWriter     //need a file path to write anything...
 
 	//-ss (structures source) -sfp (structure file path)  -hs (hazard source) -hfp (hazard file path) -ot (output type) //we will define the path internally?
-	if len(argsWithoutProg) != 2 {
-		fmt.Println("Expected two arguments, the filepath to the csv input and the file path to the geopackage input")
+	sfp := flag.String("sfp", "", "structure file path, (optional)")
+	ss := flag.String("ss", "nsi", "structure source, (optional), acceptable terms: nsi(default), gpkg, shp")
+	hfp := flag.String("hfp", "", "hazard file path, (required)")
+	hs := flag.String("hs", "", "hazard source, (required), acceptable terms: nhc, depths")
+	ot := flag.String("ot", "gpkg", "output type, (optional), acceptable terms: gpkg (default), shp, summaryDollars, summaryDepths")
+
+	flag.Parse()
+	if *sfp != "" {
+		switch *ss {
+		case "gpkg":
+			sp = structureprovider.InitGPK(*sfp, "nsi")
+		case "shp":
+			sp = structureprovider.InitSHP(*sfp)
+		case "nsi":
+			sp = structureprovider.InitNSISP() //default to NSI API structure provider.
+		default:
+			sp = structureprovider.InitNSISP()
+		}
 	} else {
-		hfp := argsWithoutProg[0]
-		sfp := argsWithoutProg[1]
-		fmt.Println(fmt.Sprintf("Computing EAD for %v using an iventory at path %v", hfp, sfp))
-		compute.ExpectedAnnualDamagesGPK(hfp, sfp)
+		sp = structureprovider.InitNSISP()
 	}
-
-	root := "/workspaces/go-tc-consequences/data/clipped_sample"
-	filepath := root + ".tif"
-	jwriter := consequences.InitJsonResultsWriterFromFile(root + "_consequences.json")
-	nsp := structureprovider.InitNSISP()
-	defer jwriter.Close()
-	nhcTiffReader := nhc.Init(filepath)
-
-	compute.StreamAbstract(nhcTiffReader, nsp, jwriter)
+	if *hfp != "" {
+		switch *hs {
+		case "nhc":
+			hp = nhc.Init(*hfp)
+		case "depths":
+			hp = hazardproviders.Init(*sfp)
+		}
+	} else {
+		panic("cannot compute without hazard provider path, use -h for help.")
+	}
+	ofp := *hfp
+	// pull the .tif off the end?
+	ofp = ofp[:len(ofp)-4] //good enough for government work?
+	fmt.Println(ofp)
+	if ofp != "" {
+		switch *ot {
+		case "gpkg":
+			ofp += "_consequences.gpkg"
+			ow = consequences.InitGpkResultsWriter(ofp, "results")
+		case "shp":
+			ofp += "_consequences.shp"
+			ow = consequences.InitShpResultsWriter(ofp, "results")
+		case "summaryDollars":
+			ofp += "_summaryDollars.csv"
+			ow = consequences.InitSummaryResultsWriterFromFile(ofp)
+		case "summaryDepths":
+			ofp += "_summaryDepths.csv"
+			ow = outputwriter.InitSummaryByDepth(ofp)
+		default:
+			ofp += "_consequences.gpkg"
+			ow = consequences.InitGpkResultsWriter(ofp, "results")
+		}
+	} else {
+		panic("we need an input hazard file path use -h for help.")
+	}
+	defer ow.Close()
+	compute.StreamAbstract(hp, sp, ow)
 
 }
