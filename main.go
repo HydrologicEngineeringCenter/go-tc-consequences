@@ -23,7 +23,7 @@ func main() {
 	ss := flag.String("ss", "nsi", "structure source, (optional), acceptable terms: nsi(default), gpkg, shp")
 	hfp := flag.String("hfp", "", "hazard file path, (required)")
 	hs := flag.String("hs", "", "hazard source, (required), acceptable terms: nhc, depths")
-	ot := flag.String("ot", "gpkg", "output type, (optional), acceptable terms: gpkg (default), shp, summaryDollars, summaryDepths")
+	ot := flag.String("ot", "gpkg", "output type, (optional), acceptable terms: gpkg (default), shp, geojson, summaryDollars, summaryDepths")
 
 	flag.Parse()
 	if *sfp != "" {
@@ -62,6 +62,9 @@ func main() {
 		case "shp":
 			ofp += "_consequences.shp"
 			ow = consequences.InitShpResultsWriter(ofp, "results")
+		case "geojson":
+			ofp += "_consequences.json"
+			ow = consequences.InitGeoJsonResultsWriterFromFile(ofp)
 		case "summaryDollars":
 			ofp += "_summaryDollars.csv"
 			ow = consequences.InitSummaryResultsWriterFromFile(ofp)
