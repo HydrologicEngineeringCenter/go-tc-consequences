@@ -9,6 +9,18 @@ import (
 
 func main() {
 	//serverless solution
+	argsWithoutProg := os.Args[1:]
+
+	//-ss (structures source) -sfp (structure file path)  -hs (hazard source) -hfp (hazard file path) -ot (output type) //we will define the path internally?
+	if len(argsWithoutProg) != 2 {
+		fmt.Println("Expected two arguments, the filepath to the csv input and the file path to the geopackage input")
+	} else {
+		hfp := argsWithoutProg[0]
+		sfp := argsWithoutProg[1]
+		fmt.Println(fmt.Sprintf("Computing EAD for %v using an iventory at path %v", hfp, sfp))
+		compute.ExpectedAnnualDamagesGPK(hfp, sfp)
+	}
+
 	root := "/workspaces/go-tc-consequences/data/clipped_sample"
 	filepath := root + ".tif"
 	jwriter := consequences.InitJsonResultsWriterFromFile(root + "_consequences.json")
@@ -17,24 +29,5 @@ func main() {
 	nhcTiffReader := nhc.Init(filepath)
 
 	compute.StreamAbstract(nhcTiffReader, nsp, jwriter)
-	/*//server solution
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		params := r.URL.Query()
-		fp, fpPresent := params["FilePath"]
-		if !fpPresent {
-			http.Error(w, "No FilePath argument", http.StatusNotFound)
-		} else {
-			if len(fp[0]) == 0 {
-				//should have better error checking...
-				http.Error(w, "Invalid FilePath argument", http.StatusNotFound)
-			} else {
-				//fmt.Fprintf(w, fp[0])
-				compute.ComputeFromFilePathWithWriter(fp[0], w)
-			}
-		}
-	})
-	log.Print("starting local server")
-	log.Fatal(http.ListenAndServe("localhost:3030", nil))
-	*/
 
 }
