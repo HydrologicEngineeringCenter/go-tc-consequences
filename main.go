@@ -40,6 +40,8 @@ func main() {
 	} else {
 		sp = structureprovider.InitNSISP()
 	}
+	fmt.Println(hfp)
+	fmt.Println(*hfp)
 	if *hfp != "" {
 		switch *hs {
 		case "nhc":
