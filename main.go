@@ -40,14 +40,14 @@ func main() {
 	} else {
 		sp = structureprovider.InitNSISP()
 	}
-	fmt.Println(hfp)
-	fmt.Println(*hfp)
+	//fmt.Println(hfp)
+	//fmt.Println(*hfp)
 	if *hfp != "" {
 		switch *hs {
 		case "nhc":
 			hp = nhc.Init(*hfp)
 		case "depths":
-			hp = hazardproviders.Init(*sfp)
+			hp = hazardproviders.Init(*hfp)
 		}
 	} else {
 		panic("cannot compute without hazard provider path, use -h for help.")
