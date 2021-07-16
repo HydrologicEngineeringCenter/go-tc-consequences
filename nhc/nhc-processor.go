@@ -39,8 +39,11 @@ func (nid nhcInundationData) ProvideHazard(l geography.Location) (hazards.Hazard
 	buffer := make([]int32, 1*1)
 	rb.IO(gdal.Read, px, py, 1, 1, buffer, 1, 1, 0, 0)
 	depth := uint8(buffer[0])
-
-	return convertDepthtoHazardEvent(convertByteToDepth(depth)), nil
+	d, err := convertByteToDepth(depth)
+	if err != nil {
+		return hazards.DepthEvent{}, err
+	}
+	return convertDepthtoHazardEvent(d), nil
 }
 func (nid nhcInundationData) ProvideHazardBoundary() (geography.BBox, error) {
 	bbox := make([]float64, 4)
@@ -55,7 +58,7 @@ func (nid nhcInundationData) ProvideHazardBoundary() (geography.BBox, error) {
 	return geography.BBox{Bbox: bbox}, nil
 }
 
-func convertDepthtoHazardEvent(d float64) (hazards.HazardEvent, error) {
+func convertDepthtoHazardEvent(d float64) hazards.HazardEvent {
 	h := hazards.DepthEvent{}
 	h.SetDepth(d)
 	return h //could be a hazard.CoastalEvent{Depth:d, Salinity:true}
