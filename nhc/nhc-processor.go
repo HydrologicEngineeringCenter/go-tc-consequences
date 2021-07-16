@@ -1,6 +1,7 @@
 package nhc
 
 import (
+	"errors"
 	"fmt"
 	"log"
 
@@ -38,6 +39,7 @@ func (nid nhcInundationData) ProvideHazard(l geography.Location) (hazards.Hazard
 	buffer := make([]int32, 1*1)
 	rb.IO(gdal.Read, px, py, 1, 1, buffer, 1, 1, 0, 0)
 	depth := uint8(buffer[0])
+
 	return convertDepthtoHazardEvent(convertByteToDepth(depth)), nil
 }
 func (nid nhcInundationData) ProvideHazardBoundary() (geography.BBox, error) {
@@ -53,28 +55,28 @@ func (nid nhcInundationData) ProvideHazardBoundary() (geography.BBox, error) {
 	return geography.BBox{Bbox: bbox}, nil
 }
 
-func convertDepthtoHazardEvent(d float64) hazards.HazardEvent {
+func convertDepthtoHazardEvent(d float64) (hazards.HazardEvent, error) {
 	h := hazards.DepthEvent{}
 	h.SetDepth(d)
 	return h //could be a hazard.CoastalEvent{Depth:d, Salinity:true}
 }
-func convertByteToDepth(b byte) float64 {
+func convertByteToDepth(b byte) (float64, error) {
 	switch b {
 	case 1:
-		return 1.0
+		return 1.0, nil
 	case 2:
-		return 2.0
+		return 2.0, nil
 	case 3:
-		return 3.0
+		return 3.0, nil
 	case 4:
-		return 6.0
+		return 6.0, nil
 	case 5:
-		return 9.0
+		return 9.0, nil
 	case 7:
-		return 0.0 //leveed area
+		return -901.0, errors.New("Leveed Area, setting depth to nodata value -901") //leveed area
 	case 15:
-		return 0.0 //intertidal mask only, may experiance high tide or estuarine class in nlcd?
+		return 0.0, nil //intertidal mask only, may experiance high tide or estuarine class in nlcd?
 	default:
-		return 0.0 //
+		return -901.0, errors.New("Byte value of " + string(b) + " is not tracked, setting depth to nodata value -901") //
 	}
 }
