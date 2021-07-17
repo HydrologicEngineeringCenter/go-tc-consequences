@@ -35,6 +35,7 @@ func main() {
 		switch *ss {
 		case "gpkg":
 			sp, se = structureprovider.InitGPK(*sfp, "nsi")
+
 		case "shp":
 			sp, se = structureprovider.InitSHP(*sfp)
 		case "nsi":
@@ -79,10 +80,20 @@ func main() {
 		switch *ot {
 		case "gpkg":
 			ofp += "_consequences.gpkg"
-			ow, oe = consequences.InitGpkResultsWriter(ofp, "results")
+			if *hs == "nhc" {
+				ow, oe = outputwriter.InitNHCGpkResultsWriter(ofp, "results")
+			} else {
+				ow, oe = consequences.InitGpkResultsWriter(ofp, "results")
+			}
+
 		case "shp":
 			ofp += "_consequences.shp"
-			ow, oe = consequences.InitShpResultsWriter(ofp, "results")
+			if *hs == "nhc" {
+				ow, oe = outputwriter.InitNHCShpResultsWriter(ofp, "results")
+			} else {
+				ow, oe = consequences.InitShpResultsWriter(ofp, "results")
+			}
+
 		case "geojson":
 			ofp += "_consequences.json"
 			ow, oe = consequences.InitGeoJsonResultsWriterFromFile(ofp)

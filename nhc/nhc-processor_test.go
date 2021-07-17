@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/HydrologicEngineeringCenter/go-tc-consequences/outputwriter"
+	"github.com/USACE/go-consequences/compute"
 	"github.com/USACE/go-consequences/hazards"
+	"github.com/USACE/go-consequences/structureprovider"
 )
 
 func Test_Convert(t *testing.T) {
@@ -72,4 +75,30 @@ func Test_Convert(t *testing.T) {
 	if de15.Depth() != 0.0 {
 		t.Errorf("expected 0.0 got something else.")
 	}
+}
+func Test_Compute_shp(t *testing.T) {
+	hp := Init("/workspaces/go-tc-consequences/data/LakeC_LAURA_2020_adv19_e10_ResultMaskRaster_4326.tif")
+	sp, se := structureprovider.InitGPK("/workspaces/go-tc-consequences/data/nsi.gpkg", "nsi")
+	if se != nil {
+		panic(se)
+	}
+	ow, err := outputwriter.InitNHCShpResultsWriter("/workspaces/go-tc-consequences/data/LakeC_LAURA_2020_adv19_e10_ResultMaskRaster.shp", "NHC_RESULTS")
+	if err != nil {
+		panic(err)
+	}
+	defer ow.Close()
+	compute.StreamAbstract(hp, sp, ow)
+}
+func Test_Compute_gpkg(t *testing.T) {
+	hp := Init("/workspaces/go-tc-consequences/data/LakeC_LAURA_2020_adv19_e10_ResultMaskRaster_4326.tif")
+	sp, se := structureprovider.InitGPK("/workspaces/go-tc-consequences/data/nsi.gpkg", "nsi")
+	if se != nil {
+		panic(se)
+	}
+	ow, err := outputwriter.InitNHCGpkResultsWriter("/workspaces/go-tc-consequences/data/LakeC_LAURA_2020_adv19_e10_ResultMaskRaster.gpkg", "NHC_RESULTS")
+	if err != nil {
+		panic(err)
+	}
+	defer ow.Close()
+	compute.StreamAbstract(hp, sp, ow)
 }

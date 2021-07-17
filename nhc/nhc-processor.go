@@ -1,11 +1,11 @@
 package nhc
 
 import (
-	"errors"
 	"fmt"
 	"log"
 
 	"github.com/USACE/go-consequences/geography"
+	"github.com/USACE/go-consequences/hazardproviders"
 	"github.com/USACE/go-consequences/hazards"
 	"github.com/dewberry/gdal"
 )
@@ -41,6 +41,12 @@ func (nid nhcInundationData) ProvideHazard(l geography.Location) (hazards.Hazard
 	depth := uint8(buffer[0])
 	d, err := convertByteToDepth(depth)
 	if err != nil {
+		he, heok := err.(hazardproviders.HazardError)
+		if heok {
+			qe := hazards.QualitativeEvent{}
+			qe.SetQualitative(he.Input)
+			return qe, nil
+		}
 		return hazards.DepthEvent{}, err
 	}
 	return convertDepthtoHazardEvent(d), nil
@@ -76,10 +82,10 @@ func convertByteToDepth(b byte) (float64, error) {
 	case 5:
 		return 9.0, nil
 	case 7:
-		return -901.0, errors.New("Leveed Area, setting depth to nodata value -901") //leveed area
+		return -901.0, hazardproviders.HazardError{"Leveed Area detected"} //leveed area
 	case 15:
-		return 0.0, nil //intertidal mask only, may experiance high tide or estuarine class in nlcd?
+		return -901.0, hazardproviders.HazardError{"Inter Tidal Mask detected"} //intertidal mask only, may experiance high tide or estuarine class in nlcd?
 	default:
-		return -901.0, errors.New("Byte value of " + string(b) + " is not tracked, setting depth to nodata value -901") //
+		return -901.0, hazardproviders.NoHazardFoundError{"Byte value of " + string(b) + "is not tracked as a hazard."} //
 	}
 }
