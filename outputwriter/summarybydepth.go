@@ -40,8 +40,8 @@ func (srw *summaryByDepth) Write(r consequences.Result) {
 
 				}
 			} else {
-				//must be an array - bummer.
-				//get at the elements of the slice, add all depths to the table?
+				//must be some other type of event - map value to -901 (NHC classification probably if the event is QualitativeEvent)
+				value = -901.00
 			}
 		}
 	}
