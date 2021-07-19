@@ -6,6 +6,7 @@ import (
 
 	"github.com/HydrologicEngineeringCenter/go-tc-consequences/outputwriter"
 	"github.com/USACE/go-consequences/compute"
+	"github.com/USACE/go-consequences/consequences"
 	"github.com/USACE/go-consequences/hazards"
 	"github.com/USACE/go-consequences/structureprovider"
 )
@@ -96,6 +97,19 @@ func Test_Compute_gpkg(t *testing.T) {
 		panic(se)
 	}
 	ow, err := outputwriter.InitNHCGpkResultsWriter("/workspaces/go-tc-consequences/data/LakeC_LAURA_2020_adv19_e10_ResultMaskRaster.gpkg", "NHC_RESULTS")
+	if err != nil {
+		panic(err)
+	}
+	defer ow.Close()
+	compute.StreamAbstract(hp, sp, ow)
+}
+func Test_Compute_json(t *testing.T) {
+	hp := Init("/workspaces/go-tc-consequences/data/clipped_sample.tif")
+	sp, se := structureprovider.InitGPK("/workspaces/go-tc-consequences/data/nsi.gpkg", "nsi")
+	if se != nil {
+		panic(se)
+	}
+	ow, err := consequences.InitGeoJsonResultsWriterFromFile("/workspaces/go-tc-consequences/data/clipped_sample_consequences.json")
 	if err != nil {
 		panic(err)
 	}
