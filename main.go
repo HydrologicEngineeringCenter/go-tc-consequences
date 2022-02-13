@@ -10,6 +10,7 @@ import (
 	"github.com/USACE/go-consequences/compute"
 	"github.com/USACE/go-consequences/consequences"
 	"github.com/USACE/go-consequences/hazardproviders"
+	"github.com/USACE/go-consequences/resultswriters"
 	"github.com/USACE/go-consequences/structureprovider"
 )
 
@@ -83,7 +84,7 @@ func main() {
 			if *hs == "nhc" {
 				ow, oe = outputwriter.InitNHCGpkResultsWriter(ofp, "results")
 			} else {
-				ow, oe = consequences.InitGpkResultsWriter(ofp, "results")
+				ow, oe = resultswriters.InitGpkResultsWriter(ofp, "results")
 			}
 
 		case "shp":
@@ -91,21 +92,21 @@ func main() {
 			if *hs == "nhc" {
 				ow, oe = outputwriter.InitNHCShpResultsWriter(ofp, "results")
 			} else {
-				ow, oe = consequences.InitShpResultsWriter(ofp, "results")
+				ow, oe = resultswriters.InitShpResultsWriter(ofp, "results")
 			}
 
 		case "geojson":
 			ofp += "_consequences.json"
-			ow, oe = consequences.InitGeoJsonResultsWriterFromFile(ofp)
+			ow, oe = resultswriters.InitGeoJsonResultsWriterFromFile(ofp)
 		case "summaryDollars":
 			ofp += "_summaryDollars.csv"
-			ow, oe = consequences.InitSummaryResultsWriterFromFile(ofp)
+			ow, oe = resultswriters.InitSummaryResultsWriterFromFile(ofp)
 		case "summaryDepths":
 			ofp += "_summaryDepths.csv"
 			ow = outputwriter.InitSummaryByDepth(ofp)
 		default:
 			ofp += "_consequences.gpkg"
-			ow, oe = consequences.InitGpkResultsWriter(ofp, "results")
+			ow, oe = resultswriters.InitGpkResultsWriter(ofp, "results")
 		}
 	} else {
 		oe = errors.New("we need an input hazard file path use -h for help.")

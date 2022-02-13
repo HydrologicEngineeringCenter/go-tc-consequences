@@ -6,8 +6,8 @@ import (
 
 	"github.com/HydrologicEngineeringCenter/go-tc-consequences/outputwriter"
 	"github.com/USACE/go-consequences/compute"
-	"github.com/USACE/go-consequences/consequences"
 	"github.com/USACE/go-consequences/hazards"
+	"github.com/USACE/go-consequences/resultswriters"
 	"github.com/USACE/go-consequences/structureprovider"
 )
 
@@ -109,7 +109,7 @@ func Test_Compute_json(t *testing.T) {
 	if se != nil {
 		panic(se)
 	}
-	ow, err := consequences.InitGeoJsonResultsWriterFromFile("/workspaces/go-tc-consequences/data/clipped_sample_consequences.json")
+	ow, err := resultswriters.InitGeoJsonResultsWriterFromFile("/workspaces/go-tc-consequences/data/clipped_sample_consequences.json")
 	if err != nil {
 		panic(err)
 	}
