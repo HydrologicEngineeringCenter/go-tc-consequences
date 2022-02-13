@@ -68,13 +68,13 @@ func Test_Convert(t *testing.T) {
 	}
 	fmt.Printf("%f\n", b7)
 	b15, err := convertByteToDepth(15)
-	if err != nil {
-		panic(err)
+	if err == nil {
+		t.Errorf("expected error about intertidal mask got something else.")
 	}
 	d15 := convertDepthtoHazardEvent(b15)
 	de15, _ := d15.(hazards.DepthEvent)
-	if de15.Depth() != 0.0 {
-		t.Errorf("expected 0.0 got something else.")
+	if de15.Depth() != -901.0 {
+		t.Errorf("expected -901.0 got something else.")
 	}
 }
 func Test_Compute_shp(t *testing.T) {
