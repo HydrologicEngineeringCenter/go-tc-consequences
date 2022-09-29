@@ -39,7 +39,7 @@ func (nid nhcInundationData) ProvideHazard(l geography.Location) (hazards.Hazard
 	buffer := make([]int32, 1*1)
 	rb.IO(gdal.Read, px, py, 1, 1, buffer, 1, 1, 0, 0)
 	depth := uint8(buffer[0])
-	d, err := convertByteToDepth(depth)
+	d, err := convertByteToDepthFootBins(depth)
 	if err != nil {
 		he, heok := err.(hazardproviders.HazardError)
 		if heok {
@@ -84,6 +84,58 @@ func convertByteToDepth(b byte) (float64, error) {
 	case 7:
 		return -901.0, hazardproviders.HazardError{"Leveed Area detected"} //leveed area
 	case 15:
+		return -901.0, hazardproviders.HazardError{"Inter Tidal Mask detected"} //intertidal mask only, may experiance high tide or estuarine class in nlcd?
+	default:
+		return -901.0, hazardproviders.NoHazardFoundError{"Byte value of " + string(b) + "is not tracked as a hazard."} //
+	}
+}
+func convertByteToDepthFootBins(b byte) (float64, error) {
+	switch b {
+	case 1:
+		return 1.0, nil
+	case 2:
+		return 2.0, nil
+	case 3:
+		return 3.0, nil
+	case 4:
+		return 4.0, nil
+	case 5:
+		return 5.0, nil
+	case 6:
+		return 6.0, nil
+	case 7:
+		return 7.0, nil
+	case 8:
+		return 8.0, nil
+	case 9:
+		return 9.0, nil
+	case 10:
+		return 10.0, nil
+	case 11:
+		return 11.0, nil
+	case 12:
+		return 12.0, nil
+	case 13:
+		return 13.0, nil
+	case 14:
+		return 14.0, nil
+	case 15:
+		return 15.0, nil
+	case 16:
+		return 16.0, nil
+	case 17:
+		return 17.0, nil
+	case 18:
+		return 18.0, nil
+	case 19:
+		return 19.0, nil
+	case 20:
+		return 20.0, nil
+	case 21:
+		return 21.0, nil
+	case 99:
+		return -901.0, hazardproviders.HazardError{"Leveed Area detected"} //leveed area
+	case 88:
 		return -901.0, hazardproviders.HazardError{"Inter Tidal Mask detected"} //intertidal mask only, may experiance high tide or estuarine class in nlcd?
 	default:
 		return -901.0, hazardproviders.NoHazardFoundError{"Byte value of " + string(b) + "is not tracked as a hazard."} //
