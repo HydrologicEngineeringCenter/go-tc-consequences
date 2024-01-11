@@ -31,7 +31,7 @@ func InitNHCGpkResultsWriter_Projected(filepath string, layerName string, ESPG i
 	//set spatial reference?
 	sr := gdal.CreateSpatialReference("")
 	sr.FromEPSG(ESPG)
-	newLayer := dsOut.CreateLayer(layerName, sr, gdal.GT_Point, []string{"GEOMETRY_NAME=shape"}) //forcing point data type.  source type (using lyaer.type()) from postgis was a generic geometry
+	newLayer := dsOut.CreateLayer(layerName, sr, gdal.GeometryType(gdal.GT_Point), []string{"GEOMETRY_NAME=shape"}) //forcing point data type.  source type (using lyaer.type()) from postgis was a generic geometry
 
 	return &gpkResultsWriter{FilePath: filepath, LayerName: layerName, ds: &dsOut, Layer: &newLayer, index: 0}, nil
 }
@@ -43,7 +43,7 @@ func (srw *gpkResultsWriter) Write(r consequences.Result) {
 	result := r.Result
 	if !srw.FieldsCreated {
 		func() {
-			fieldDef := gdal.CreateFieldDefinition("objectid", gdal.FT_Integer)
+			fieldDef := gdal.CreateFieldDefinition("objectid", gdal.FieldType(gdal.FT_Integer))
 			defer fieldDef.Destroy()
 			srw.Layer.CreateField(fieldDef, true)
 		}()
@@ -51,7 +51,7 @@ func (srw *gpkResultsWriter) Write(r consequences.Result) {
 			//need to identify value type
 			func() {
 				if val == "hazard" { //not a huge fan of this, because it is specific to that kind of hazard.
-					fieldDef := gdal.CreateFieldDefinition("hazard", gdal.FT_String)
+					fieldDef := gdal.CreateFieldDefinition("hazard", gdal.FieldType(gdal.FT_String))
 					defer fieldDef.Destroy()
 					srw.Layer.CreateField(fieldDef, true) //approxOk.
 				} else {
@@ -83,7 +83,7 @@ func (srw *gpkResultsWriter) Write(r consequences.Result) {
 	//create a point geometry - not sure the best way to do that.
 	x := 0.0
 	y := 0.0
-	g := gdal.Create(gdal.GT_Point)
+	g := gdal.Create(gdal.GeometryType(gdal.GT_Point))
 	defer g.Destroy()
 	for i, val := range r.Headers {
 		if val == "x" {
@@ -170,8 +170,8 @@ func (srw *gpkResultsWriter) Close() {
 }
 
 var gdalTypes map[reflect.Kind]gdal.FieldType = map[reflect.Kind]gdal.FieldType{
-	reflect.Float32: gdal.FT_Real,
-	reflect.Float64: gdal.FT_Real,
-	reflect.Int32:   gdal.FT_Integer,
-	reflect.String:  gdal.FT_String,
+	reflect.Float32: gdal.FieldType(gdal.FT_Real),
+	reflect.Float64: gdal.FieldType(gdal.FT_Real),
+	reflect.Int32:   gdal.FieldType(gdal.FT_Integer),
+	reflect.String:  gdal.FieldType(gdal.FT_String),
 }

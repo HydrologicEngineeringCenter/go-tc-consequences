@@ -29,6 +29,11 @@ func main() {
 	hs := flag.String("hs", "", "hazard source, (required), acceptable terms: nhc, depths")
 	ht := flag.String("ht", "feet", "hazard type of vertical datum, (required), acceptable terms: feet (default), meters")
 	ot := flag.String("ot", "gpkg", "output type, (optional), acceptable terms: gpkg (default), shp, geojson, summaryDollars, summaryDepths")
+	computeLifeloss := flag.Bool("computelifeloss", false, "(optional), acceptable terms: false (default), true")
+	computeByFips := flag.Bool("computeByFips", false, "(optional), acceptable terms: false (default), true")
+	fipsCode := flag.String("fipsCode", "", "fipsCode, (optional), acceptable terms: 06001")
+	lifelossSeed := flag.Int64("lifelossSeed", 1234, "lifelossSeed, (optional), acceptable terms: 1234 (default)")
+	complianceRate := flag.Float64("complianceRate", 0.75, "complianceRate, (optional), acceptable terms: 0.75 (default)")
 	var se error
 	se = nil
 	flag.Parse()
@@ -136,7 +141,21 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		compute.StreamAbstract(hp, sp, ow)
+		computeable := compute.Computeable{
+			StructureProvider: sp,
+			HazardProvider:    hp,
+			ResultsWriter:     ow,
+			ComputeLifeloss:   *computeLifeloss,
+			LifelossSeed:      *lifelossSeed,
+			ComplianceRate:    *complianceRate,
+			ComputeByFips:     *computeByFips,
+			FipsCode:          *fipsCode,
+		}
+		err = computeable.Compute()
+		if err != nil {
+			fmt.Println(err)
+		}
+		//compute.StreamAbstract(hp, sp, ow)
 	}
 
 }
