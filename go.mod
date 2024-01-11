@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/USACE/go-consequences v0.0.0-20240111195503-54b765ca8715
-	github.com/dewberry/gdal v0.3.3
+	github.com/dewberry/gdal v0.3.2
 )
 
 require (

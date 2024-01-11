@@ -17,6 +17,8 @@ github.com/boombuler/barcode v1.0.0/go.mod h1:paBWMcWSl3LHKBqUq+rly7CNSldXjb2rDl
 github.com/cockroachdb/apd v1.1.0 h1:3LFP3629v+1aKXU5Q37mxmRxX/pIu1nijXydLShEq5I=
 github.com/cockroachdb/apd v1.1.0/go.mod h1:8Sl8LxpKi29FqWXR16WEFZRNSz3SoPzUzeMeY4+DwBQ=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/dewberry/gdal v0.3.2 h1:TqvMiSNbd8Cc5QwgOI92Dbg8zz08PWs8Vwk+WLYSSJE=
+github.com/dewberry/gdal v0.3.2/go.mod h1:3knazvb7vQFrFAl7+iWI34xP0iiRS7iRFZ1C4Jfwx7Q=
 github.com/dewberry/gdal v0.3.3 h1:2x0eRfPLxlnb0ibeazDYAwEaPr+yQUZXoSu/xxw/kxg=
 github.com/dewberry/gdal v0.3.3/go.mod h1:KI8Myvf5u/9VeXKa1SJhKfrom8Bk82sTJvOc4Wg+QdA=
 github.com/fatih/color v1.15.0 h1:kOqh6YHBtK8aywxGerMG2Eq3H6Qgoqeo13Bk2Mv/nBs=
