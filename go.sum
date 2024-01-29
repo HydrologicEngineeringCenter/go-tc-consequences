@@ -3,11 +3,15 @@ gioui.org v0.0.0-20210308172011-57750fc8a0a6/go.mod h1:RSH6KIUZ0p2xy5zHDxgAM4zum
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/HydrologicEngineeringCenter/go-statistics v0.0.0-20221221211532-e53b36ba1a67 h1:kSOGZmz1uc+gWiNz8Qcb3ok+i3YSWoSx7lkaw/L3LWU=
 github.com/HydrologicEngineeringCenter/go-statistics v0.0.0-20221221211532-e53b36ba1a67/go.mod h1:ABek1cDzTXjGA4uwrB91/NriEROj8AnUDaX7xU+1L2E=
+github.com/HydrologicEngineeringCenter/go-statistics v0.0.0-20240126145250-a17483ae0981 h1:JFLYdHvF3mPN56AkXeaWm41bQ9eJFuSceCtXXtMWTNI=
+github.com/HydrologicEngineeringCenter/go-statistics v0.0.0-20240126145250-a17483ae0981/go.mod h1:ABek1cDzTXjGA4uwrB91/NriEROj8AnUDaX7xU+1L2E=
 github.com/JohnCGriffin/overflow v0.0.0-20211019200055-46fa312c352c h1:RGWPOewvKIROun94nF7v2cua9qP+thov/7M50KEoeSU=
 github.com/USACE/go-consequences v0.0.0-20240111194240-d854ff936776 h1:je8HhUY/khOzyhvSdTaXLzEkg6PhAaWzlELsyl8ibaA=
 github.com/USACE/go-consequences v0.0.0-20240111194240-d854ff936776/go.mod h1:fa4K4Ox/A6nTF2hXFBNjI+S6sEW6+Dznx8gdPjtnzYk=
 github.com/USACE/go-consequences v0.0.0-20240111195503-54b765ca8715 h1:nylhhmEHTKldv+haDIXpauk5nLhIgZuEBZhb057B+6Q=
 github.com/USACE/go-consequences v0.0.0-20240111195503-54b765ca8715/go.mod h1:fa4K4Ox/A6nTF2hXFBNjI+S6sEW6+Dznx8gdPjtnzYk=
+github.com/USACE/go-consequences v0.0.0-20240117210454-9d335e55f9f6 h1:RzzLEoj1v8p5+JxwTIrZdFajQpSkcrhSM5Mx4pVxuRU=
+github.com/USACE/go-consequences v0.0.0-20240117210454-9d335e55f9f6/go.mod h1:fa4K4Ox/A6nTF2hXFBNjI+S6sEW6+Dznx8gdPjtnzYk=
 github.com/ajstarks/svgo v0.0.0-20180226025133-644b8db467af/go.mod h1:K08gAheRH3/J6wwsYMMT4xOr94bZjxIelGM0+d/wbFw=
 github.com/alecthomas/kong v0.8.1 h1:acZdn3m4lLRobeh3Zi2S2EpnXTd1mOL6U7xVml+vfkY=
 github.com/andybalholm/brotli v1.0.5 h1:8uQZIdzKmjc/iuPu7O2ioW48L81FgatrcpfFmiq/cCs=
@@ -77,6 +81,8 @@ golang.org/x/exp v0.0.0-20190306152737-a1d7652674e8/go.mod h1:CJ0aWSM057203Lf6IL
 golang.org/x/exp v0.0.0-20191002040644-a1355ae1e2c3/go.mod h1:NOZ3BPKG0ec/BKJQgnvsSFpcKLM5xXVWnvZS97DWHgE=
 golang.org/x/exp v0.0.0-20240110193028-0dcbfd608b1e h1:723BNChdd0c2Wk6WOE320qGBiPtYx0F0Bbm1kriShfE=
 golang.org/x/exp v0.0.0-20240110193028-0dcbfd608b1e/go.mod h1:iRJReGqOEeBhDZGkGbynYwcHlctCvnjTYIamk7uXpHI=
+golang.org/x/exp v0.0.0-20240119083558-1b970713d09a h1:Q8/wZp0KX97QFTc2ywcOE0YRjZPVIx+MXInMzdvQqcA=
+golang.org/x/exp v0.0.0-20240119083558-1b970713d09a/go.mod h1:idGWGoKP1toJGkd5/ig9ZLuPcZBC3ewk7SzmH0uou08=
 golang.org/x/image v0.0.0-20180708004352-c73c2afc3b81/go.mod h1:ux5Hcp/YLpHSI86hEcLt0YII63i6oz57MZXIpbrjZUs=
 golang.org/x/image v0.0.0-20190227222117-0694c2d4d067/go.mod h1:kZ7UVZpmo3dzQBMxlp+ypCbDeSB+sBbTgSJuh5dn5js=
 golang.org/x/image v0.0.0-20190802002840-cff245a6509b/go.mod h1:FeLwcggjj3mMvU+oOTbSwawSJRM1uh48EjtB4UJZlP0=
@@ -108,6 +114,7 @@ golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e/go.mod h1:n7NCudcB/nEzxVGm
 golang.org/x/tools v0.0.0-20190206041539-40960b6deb8e/go.mod h1:n7NCudcB/nEzxVGmLbDWY5pfWTLqBcC2KZ6jyYvM4mQ=
 golang.org/x/tools v0.0.0-20190927191325-030b2cf1153e/go.mod h1:b+2E5dAYhXwXZwtnZ6UAqBI28+e2cm9otk0dWdXHAEo=
 golang.org/x/tools v0.16.0 h1:GO788SKMRunPIBCXiQyo2AaexLstOrVhuAL5YwsckQM=
+golang.org/x/tools v0.17.0 h1:FvmRgNOcs3kOa+T20R1uhfP9F6HgG2mfxDv1vrx1Htc=
 golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
 golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 h1:H2TDz8ibqkAF6YGhCdN3jS9O0/s90v0rJh3X/OLHEUk=
 gonum.org/v1/gonum v0.0.0-20180816165407-929014505bf4/go.mod h1:Y+Yx5eoAFn32cQvJDxZx5Dpnq+c3wtXuadVZAcxbbBo=
