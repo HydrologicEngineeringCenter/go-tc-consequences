@@ -12,6 +12,8 @@ github.com/USACE/go-consequences v0.0.0-20240111195503-54b765ca8715 h1:nylhhmEHT
 github.com/USACE/go-consequences v0.0.0-20240111195503-54b765ca8715/go.mod h1:fa4K4Ox/A6nTF2hXFBNjI+S6sEW6+Dznx8gdPjtnzYk=
 github.com/USACE/go-consequences v0.0.0-20240117210454-9d335e55f9f6 h1:RzzLEoj1v8p5+JxwTIrZdFajQpSkcrhSM5Mx4pVxuRU=
 github.com/USACE/go-consequences v0.0.0-20240117210454-9d335e55f9f6/go.mod h1:fa4K4Ox/A6nTF2hXFBNjI+S6sEW6+Dznx8gdPjtnzYk=
+github.com/USACE/go-consequences v0.0.0-20240202151734-bf486d63a5a5 h1:heUp725bnq4aPp2slWDKQdTOYy53DsIG6WGScwDjH8Y=
+github.com/USACE/go-consequences v0.0.0-20240202151734-bf486d63a5a5/go.mod h1:fa4K4Ox/A6nTF2hXFBNjI+S6sEW6+Dznx8gdPjtnzYk=
 github.com/ajstarks/svgo v0.0.0-20180226025133-644b8db467af/go.mod h1:K08gAheRH3/J6wwsYMMT4xOr94bZjxIelGM0+d/wbFw=
 github.com/alecthomas/kong v0.8.1 h1:acZdn3m4lLRobeh3Zi2S2EpnXTd1mOL6U7xVml+vfkY=
 github.com/andybalholm/brotli v1.0.5 h1:8uQZIdzKmjc/iuPu7O2ioW48L81FgatrcpfFmiq/cCs=

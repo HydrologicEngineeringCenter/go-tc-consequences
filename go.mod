@@ -3,7 +3,7 @@ module github.com/HydrologicEngineeringCenter/go-tc-consequences
 go 1.19
 
 require (
-	github.com/USACE/go-consequences v0.0.0-20240117210454-9d335e55f9f6
+	github.com/USACE/go-consequences v0.0.0-20240202151734-bf486d63a5a5
 	github.com/dewberry/gdal v0.3.2
 )
 
